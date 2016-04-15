@@ -1,0 +1,82 @@
+/*
+ * Copyright 2016 Alireza Eskandarpour Shoferi
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.github.meness.easyintro.views;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageButton;
+
+import io.github.meness.easyintro.R;
+
+public abstract class AbstractToggleIndicator extends ImageButton implements View.OnClickListener {
+    private boolean mDisabled;
+
+    public AbstractToggleIndicator(Context context) {
+        this(context, null);
+    }
+
+    public AbstractToggleIndicator(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.styleToggleIndicator);
+    }
+
+    public AbstractToggleIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, R.style.ToggleIndicatorStyle);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public AbstractToggleIndicator(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+
+        setOnClickListener(this);
+    }
+
+    public boolean isDisabled() {
+        return mDisabled;
+    }
+
+    public void withDisabled(boolean b) {
+        mDisabled = b;
+        if (b) {
+            disable();
+        } else {
+            enable();
+        }
+    }
+
+    private void disable() {
+        setOnClickListener(null);
+    }
+
+    private void enable() {
+        setOnClickListener(this);
+    }
+
+    public boolean isVisible() {
+        return getVisibility() == VISIBLE;
+    }
+
+    public void hide() {
+        setVisibility(GONE);
+    }
+
+    public void show() {
+        setVisibility(VISIBLE);
+    }
+}
